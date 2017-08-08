@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   devtool: 'source-map',
@@ -6,7 +7,7 @@ module.exports = {
     filename: './src/assets/scripts/app.js',
   },
   output: {
-    filename: './build/scripts/bundle.js',
+    filename: './dist/scripts/bundle.js',
   },
   module: {
     rules: [
