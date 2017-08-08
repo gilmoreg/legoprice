@@ -17,6 +17,14 @@
   },
   "homepage": "https://github.com/gilmoreg/legoprice#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^4.4.1",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "gh-pages": "^1.0.0",
     "jest": "^20.0.4",
     "webpack": "^3.5.1"
   }
