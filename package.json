@@ -1,0 +1,23 @@
+{
+  "name": "legoprice",
+  "version": "1.0.0",
+  "description": "Quickly compare current prices for Lego sets by set number",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gilmoreg/legoprice.git"
+  },
+  "author": "Grayson Gilmore (gilmoreg@live.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gilmoreg/legoprice/issues"
+  },
+  "homepage": "https://github.com/gilmoreg/legoprice#readme",
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "webpack": "^3.5.1"
+  }
+}
