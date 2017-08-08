@@ -65,21 +65,9 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const { test } = __webpack_require__(1);
-
-test();
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports) {
 
-module.exports = {
-  test: () => {
-    console.log('test');
-  }
-};
+
 
 /***/ })
 /******/ ]);
