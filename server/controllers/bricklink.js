@@ -2,6 +2,9 @@ global.fetch = require('node-fetch');
 const nonce = require('nonce')();
 const oauthSignature = require('oauth-signature');
 
+// http://apidev.bricklink.com/redmine/projects/bricklink-api/wiki/Authorization
+// http://apidev.bricklink.com/redmine/projects/bricklink-api/wiki
+
 exports.fetchData = async (id) => {
   console.log('bricklink', id);
 
