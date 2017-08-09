@@ -5,20 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
     <link rel="stylesheet" href="styles/bulma.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="favicon" href="favicon.ico?v=3">
     <title>LegoPrice</title>
   </head>
   <body>
-    <header>
+    <nav>
       <h1>LegoPrice</h1>
-    </header>
+    </nav>
     <main>
-      <p>Getting started!</p>
+      <div class="section">
+        <form id="set-form">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="set-number" class="input" type="text" placeholder="enter a set number">
+            </div>
+            <a class="button is-info">Search</a>
+          </div>
+        </form>
+      </div>
+      <div class="section hidden" id="results">
+        <p>Results</p>
+      </div>
     </main>
     <footer>
       <p>
         LegoPrice &copy; 2017 by <a target="_blank" rel="noopener noreferrer" href="http://gilmoreg.com" aria-hidden="true" title="Grayson Gilmore">Grayson Gilmore</a>. All rights reserved.
       </p>
     </footer>
-    <script src="scripts/bundle.js"></script>
+    <script src="scripts/app.js"></script>
   </body>
 </html>

@@ -22,7 +22,7 @@ app.use(cors({
   credentials: true,
 }));
 app.use(compression({ level: 9, threshold: 0 }));
-app.use('/', express.static(path.join(__dirname, '../client/dist')));
+app.use('/', express.static(path.join(__dirname, '../dist')));
 
 // Log all requests
 app.use((req, res, next) => {
