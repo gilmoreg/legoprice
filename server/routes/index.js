@@ -8,6 +8,6 @@ const catchErrors = fn =>
   (req, res, next) =>
     fn(req, res, next).catch(next);
 
-router.get('/:id', catchErrors(priceController.fetchPrices));
+router.get('/api/set/:id', catchErrors(priceController.fetchPrices));
 
 module.exports = router;
