@@ -16,7 +16,7 @@ exports.fetchData = async (id) => {
     .then(item => ({
       url: item.DetailPageURL,
       title: item.ItemAttributes.Title,
-      price: item.OfferSummary.LowestNewPrice.Amount,
+      price: Number.parseInt(item.OfferSummary.LowestNewPrice.Amount, 10) / 100,
     }))
     .catch(err => console.error(err));
 };
