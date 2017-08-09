@@ -44,32 +44,38 @@ exports.fetchData = async (id, minPrice) => {
   };
   let findUrl = buildURL('http://svcs.ebay.com/services/search/FindingService/v1?', findingParams);
   findUrl += '&REST-PAYLOAD';
-  const data = await global.fetch(findUrl)
+  const active = await global.fetch(findUrl)
     .then(res => res.json())
-    .then((res) => {
-      console.log('ebay', res.findItemsByProductResponse[0].searchResult[0]);
-      return res;
-    })
     .then(res => res.findItemsByProductResponse[0].searchResult[0].item[0])
     .then(res => ({
       url: res.viewItemURL[0],
       price: Number.parseFloat(res.sellingStatus[0].currentPrice[0].__value__, 10),
     }));
 
-  // http://svcs.ebay.com/services/search/FindingService/v1?SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&OPERATION-NAME=findItemsByProduct&productId.@type=ReferenceID&SECURITY-APPNAME=GraysonG-Legopric-PRD-68e01d5e3-80be1545&productId=238331572&REST-PAYLOAD
+  const completedParams = {
+    'SERVICE-VERSION': '1.0.0',
+    'RESPONSE-DATA-FORMAT': 'JSON',
+    'OPERATION-NAME': 'findCompletedItems',
+    'productId.@type': 'ReferenceID',
+    'SECURITY-APPNAME': process.env.EBAY_APPID,
+    'itemFilter(0).name': 'Condition',
+    'itemFilter(0).value(0)': '1000', // new condition only
+    'itemFilter(1).name': 'MinPrice',
+    'itemFilter(1).value(0)': `${minPrice}`,
+    'itemFilter(2).name': 'SoldItemsOnly',
+    'itemFilter(2).value(0)': 'true',
+    'itemFilter(3).name': 'LocatedIn',
+    'itemFilter(3).value(0)': 'US',
+    'paginationInput.entriesPerPage': '5',
+    productId,
+  };
+  let completedUrl = buildURL('http://svcs.ebay.com/services/search/FindingService/v1?', completedParams);
+  completedUrl += '&REST-PAYLOAD';
+  const completed = await global.fetch(completedUrl)
+    .then(res => res.json())
+    .then(res => res.findCompletedItemsResponse[0].searchResult[0].item)
+    .then(res => res.map(item =>
+      Number.parseFloat(item.sellingStatus[0].currentPrice[0].__value__, 10)));
 
-  /* 
-    Params:
-    appid=${process.env.EBAY_APPID}
-    version=517
-    siteid=0
-    responseencoding=json
-    callname= <FindPopularItems>
-
-    First need to call FindProducts to get the ebay ID - want the reference ID
-    QueryKeywords
-
-    batman set: 238331572
-  */
-  return data;
+  return { active, completed };
 };
