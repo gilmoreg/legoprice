@@ -75,7 +75,7 @@ const LegoPrice = (() => {
       walmartPrice.innerHTML = 'n/a';
     }
     if (results.ebay) {
-      if (results.ebay.active && results.ebay.active.length) {
+      if (results.ebay.active) {
         ebayLink.setAttribute('href', results.ebay.active.url);
         ebayPrice.innerHTML = usd(results.ebay.active.price);
       } else {
