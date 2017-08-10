@@ -1,14 +1,14 @@
 global.fetch = require('node-fetch');
 
 exports.fetchData = (id) => {
-  const url = `http://api.walmartlabs.com/v1/search?query=Lego+${id}&format=json&categoryId=4171_4186_1044000&apiKey=${process.env.WALMART_KEY}`;
+  const url = `http://api.walmartlabs.com/v1/search?query=Lego+${id}&format=json&categoryId=4171_4186_1044000&apiKey=${process.env.WALMART_KEY}&numItems=25`;
   return global.fetch(url)
     .then(res => res.json())
+    .then(res => res.items.filter(item => (item.name.includes(id) || item.productUrl.includes(id))))
     .then(res => ({
-      price: res.items[0].salePrice,
-      url: res.items[0].productUrl,
+      price: res[0].salePrice,
+      url: res[0].productUrl,
     }))
-    .then(res => (res.url.includes(id) ? res : null))
     .catch(err => Error(err));
 };
 
