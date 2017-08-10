@@ -38,4 +38,4 @@ app.use((req, res) => {
   res.status(500).json({ error: 'Something went wrong' }).end();
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);
