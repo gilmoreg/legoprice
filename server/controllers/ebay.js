@@ -9,7 +9,7 @@ const buildURL = (gateway, params) => {
   return url.slice(0, -1);
 };
 
-exports.fetchData = async (id, minPrice) => {
+exports.fetchData = async (id) => {
   // Use Shopping API to get product ID
   const shoppingParams = {
     appid: process.env.EBAY_APPID,
@@ -17,12 +17,14 @@ exports.fetchData = async (id, minPrice) => {
     siteid: '0', // US
     responseencoding: 'JSON',
     callname: 'FindProducts',
+    // CategoryID: '19006',
     QueryKeywords: encodeURIComponent(`Lego ${id}`),
   };
 
   const shopUrl = buildURL('http://open.api.ebay.com/shopping?', shoppingParams);
   const productId = await global.fetch(shopUrl)
     .then(res => res.json())
+    .then(res => (res.Product[0].Title.includes(id) ? res : null))
     .then(res => Number.parseInt(res.Product[0].ProductID[0].Value, 10))
     .catch(() => Error('Could not get Ebay Product ID'));
   // If we dont get a product ID nothing else will work, so bail out
@@ -38,23 +40,29 @@ exports.fetchData = async (id, minPrice) => {
     productId,
     'itemFilter(0).name': 'Condition',
     'itemFilter(0).value(0)': '1000', // new condition only
-    'itemFilter(1).name': 'MinPrice',
-    'itemFilter(1).value(0)': `${minPrice}`,
-    'itemFilter(2).name': 'SortOrder',
-    'itemFilter(2).value(0)': 'CurrentPriceLowest',
-    'itemFilter(3).name': 'LocatedIn',
-    'itemFilter(3).value(0)': 'US',
+    'itemFilter(1).name': 'SortOrder',
+    'itemFilter(1).value(0)': 'CurrentPriceLowest',
+    'itemFilter(2).name': 'LocatedIn',
+    'itemFilter(2).value(0)': 'US',
   };
   let findUrl = buildURL('http://svcs.ebay.com/services/search/FindingService/v1?', findingParams);
   findUrl += '&REST-PAYLOAD';
   const active = await global.fetch(findUrl)
     .then(res => res.json())
     .then(res => res.findItemsByProductResponse[0].searchResult[0].item[0])
-    .then(res => ({
-      url: res.viewItemURL[0],
-      price: Number.parseFloat(res.sellingStatus[0].currentPrice[0].__value__, 10) +
-        Number.parseFloat(res.shippingInfo[0].shippingServiceCost[0].__value__, 10),
-    }))
+    .then((res) => {
+      let price = 0;
+      try {
+        price += Number.parseFloat(res.shippingInfo[0].shippingServiceCost[0].__value__, 10);
+      } catch (err) {
+        console.log('No shipping info');
+      }
+      price += Number.parseFloat(res.sellingStatus[0].currentPrice[0].__value__, 10);
+      return {
+        price,
+        url: res.viewItemURL[0],
+      };
+    })
     .catch(error => Error({ message: 'Could not get current Ebay sale info', error }));
 
   const completedParams = {
@@ -65,12 +73,10 @@ exports.fetchData = async (id, minPrice) => {
     'SECURITY-APPNAME': process.env.EBAY_APPID,
     'itemFilter(0).name': 'Condition',
     'itemFilter(0).value(0)': '1000', // new condition only
-    'itemFilter(1).name': 'MinPrice',
-    'itemFilter(1).value(0)': `${minPrice}`,
-    'itemFilter(2).name': 'SoldItemsOnly',
-    'itemFilter(2).value(0)': 'true',
-    'itemFilter(3).name': 'LocatedIn',
-    'itemFilter(3).value(0)': 'US',
+    'itemFilter(1).name': 'SoldItemsOnly',
+    'itemFilter(1).value(0)': 'true',
+    'itemFilter(2).name': 'LocatedIn',
+    'itemFilter(2).value(0)': 'US',
     'paginationInput.entriesPerPage': '5',
     productId,
   };

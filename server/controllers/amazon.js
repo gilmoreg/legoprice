@@ -10,6 +10,7 @@ exports.fetchData = async (id) => {
     searchIndex: 'Toys',
     keywords: `Lego ${id}`,
     title: `${id}`,
+    MerchantId: 'Amazon',
     responseGroup: 'OfferSummary,Small',
   })
     .then(results => results.Items.Item[0])
