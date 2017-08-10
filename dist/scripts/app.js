@@ -16,6 +16,7 @@ const LegoPrice = (() => {
   const form = $('#set-form');
   const button = $('#submit');
   const setNumberInput = $('#set-number');
+  const error = $('#error');
 
   const resultsSection = $('#results');
   const title = $('#title');
@@ -32,8 +33,20 @@ const LegoPrice = (() => {
   const usd = value => `${Number(value)
     .toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
 
+  const resetError = () => {
+    error.classList.add('hidden');
+    error.innerHTML = '';
+  };
+
+  const showError = (msg) => {
+    error.classList.remove('hidden');
+    error.innerHTML = msg;
+    setTimeout(resetError, 3000);
+  };
+
   const reset = () => {
     resultsSection.classList.add('hidden');
+    error.innerHTML = '';
     title.innerHTML = '';
     amazonLink.setAttribute('href', '#');
     amazonPrice.innerHTML = '';
@@ -65,6 +78,10 @@ const LegoPrice = (() => {
 
   const search = (event) => {
     event.preventDefault();
+    if (!Number(setNumberInput.value)) {
+      showError('Set number must be a number');
+      return;
+    }
     reset();
     button.classList.add('is-loading');
     const setNumber = setNumberInput.value;
@@ -75,7 +92,10 @@ const LegoPrice = (() => {
         resultsSection.classList.remove('hidden');
         fillResults(res);
       })
-      .catch(err => console.error(err));
+      .catch((err) => {
+        button.classList.remove('is-loading');
+        showError(err);
+      });
   };
 
   return {
