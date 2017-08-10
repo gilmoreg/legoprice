@@ -65,15 +65,21 @@ const LegoPrice = (() => {
       title.innerHTML = results.amazon.title;
       amazonLink.setAttribute('href', results.amazon.url);
       amazonPrice.innerHTML = usd(results.amazon.price);
+    } else {
+      amazonPrice.innerHTML = 'n/a';
     }
     if (results.walmart) {
       walmartLink.setAttribute('href', results.walmart.url);
       walmartPrice.innerHTML = usd(results.walmart.price);
+    } else {
+      walmartPrice.innerHTML = 'n/a';
     }
     if (results.ebay) {
-      if (results.ebay.active) {
+      if (results.ebay.active && results.ebay.active.length) {
         ebayLink.setAttribute('href', results.ebay.active.url);
         ebayPrice.innerHTML = usd(results.ebay.active.price);
+      } else {
+        ebayPrice.innerHTML = 'n/a';
       }
       if (results.ebay.completed && results.ebay.completed.length) {
         let sales = '';
@@ -81,7 +87,12 @@ const LegoPrice = (() => {
           sales += `${usd(sale)} `;
         });
         ebaySales.innerHTML = sales;
+      } else {
+        ebaySales.innerHTML = 'n/a';
       }
+    } else {
+      ebayPrice.innerHTML = 'n/a';
+      ebaySales.innerHTML = 'n/a';
     }
     if (results.brickset) bricksetLink.setAttribute('href', results.brickset.url);
     if (results.camel) camelLink.setAttribute('href', results.camel.url);
