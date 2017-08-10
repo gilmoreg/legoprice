@@ -41,6 +41,10 @@ main {
   margin-bottom: 2em;
 }
 
+#set-form {
+  margin: 20px;
+}
+
 footer {
   position: fixed;
   width: 100%;
@@ -76,4 +80,17 @@ footer:a, footer a:visited {
 
 .tcenter {
   text-align: center;
+}
+
+.float-right {
+  float: right;
+}
+
+.cf:before,
+.cf:after {
+  content: "";
+  display: table;
+}
+.cf:after {
+  clear: both;
 }

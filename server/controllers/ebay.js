@@ -49,7 +49,8 @@ exports.fetchData = async (id, minPrice) => {
     .then(res => res.findItemsByProductResponse[0].searchResult[0].item[0])
     .then(res => ({
       url: res.viewItemURL[0],
-      price: Number.parseFloat(res.sellingStatus[0].currentPrice[0].__value__, 10),
+      price: Number.parseFloat(res.sellingStatus[0].currentPrice[0].__value__, 10) +
+        Number.parseFloat(res.shippingInfo[0].shippingServiceCost[0].__value__, 10),
     }));
 
   const completedParams = {

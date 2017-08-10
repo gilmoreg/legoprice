@@ -14,18 +14,48 @@
       <h1>LegoPrice</h1>
     </nav>
     <main>
-      <div class="section">
-        <form id="set-form">
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <input id="set-number" class="input" type="text" placeholder="enter a set number">
-            </div>
-            <a class="button is-info" id="submit">Search</a>
+      <form id="set-form">
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <input id="set-number" class="input" type="text" value="70917" placeholder="enter a set number">
           </div>
-        </form>
-      </div>
-      <div class="section hidden" id="results">
-        <p>Results</p>
+          <a class="button is-info" id="submit">Search</a>
+        </div>
+      </form>
+      <div class="section " id="results">
+        <p class="tcenter title is-5" id="title"></p>
+        <p class="tcenter">
+          Prices
+          <ul>
+            <li>
+              <a href="#" id="amazon-link" target="_blank" rel="noopener noreferrer">Amazon</a>
+              <div class="float-right" id="amazon-price">price</div>
+            </li>
+            <li>
+              <a href="#" id="walmart-link" target="_blank" rel="noopener noreferrer">Walmart</a>
+              <div class="float-right" id="walmart-price">price</div>
+            </li>
+            <li>
+              <a href="#" id="ebay-link" target="_blank" rel="noopener noreferrer">Ebay</a>
+              <div class="float-right" id="ebay-price">price</div>    
+            </li>
+            <li>
+              Latest Ebay sales:
+              <div class="float-right" id="ebay-sales">1, 2, 3, 4, 5</div>
+            </li>
+          </ul>
+        </p>
+        <p class="tcenter">
+          Links
+          <ul>
+            <li>
+              <a href="#" id="brickset-link" target="_blank" rel="noopener noreferrer">BrickSet</a>
+            </li>
+            <li>
+              <a href="#" id="camel-link" target="_blank" rel="noopener noreferrer">CamelCamelCamel</a>
+            </li>
+          </ul>
+        </p>
       </div>
     </main>
     <footer>
