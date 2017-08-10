@@ -4,6 +4,7 @@
   "description": "Quickly compare current prices for Lego sets by set number",
   "main": "index.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "browser": "cd dist && browser-sync start --server --files 'styles/*.css, *.html, scripts/*.js'",
