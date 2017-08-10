@@ -26,6 +26,8 @@ const LegoPrice = (() => {
   const ebayLink = $('#ebay-link');
   const ebayPrice = $('#ebay-price');
   const ebaySales = $('#ebay-sales');
+  const bricksetLink = $('#brickset-link');
+  const camelLink = $('#camel-link');
 
   const usd = value => `${Number(value)
     .toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
@@ -40,10 +42,11 @@ const LegoPrice = (() => {
     ebayLink.setAttribute('href', '#');
     ebayPrice.innerHTML = '';
     ebaySales.innerHTML = '';
+    bricksetLink.setAttribute('href', '#');
+    camelLink.setAttribute('href', '#');
   };
 
   const fillResults = (results) => {
-    console.log('fillResults', results);
     title.innerHTML = results.amazon.title;
     amazonLink.setAttribute('href', results.amazon.url);
     amazonPrice.innerHTML = usd(results.amazon.price);
@@ -56,6 +59,8 @@ const LegoPrice = (() => {
       sales += `${usd(sale)} `;
     });
     ebaySales.innerHTML = sales;
+    bricksetLink.setAttribute('href', results.brickset.url);
+    camelLink.setAttribute('href', results.camel.url);
   };
 
   const search = (event) => {
