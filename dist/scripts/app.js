@@ -60,6 +60,7 @@ const LegoPrice = (() => {
   };
 
   const fillResults = (results) => {
+    console.log(results);
     if (results.amazon) {
       title.innerHTML = results.amazon.title;
       amazonLink.setAttribute('href', results.amazon.url);
@@ -70,9 +71,11 @@ const LegoPrice = (() => {
       walmartPrice.innerHTML = usd(results.walmart.price);
     }
     if (results.ebay) {
-      ebayLink.setAttribute('href', results.ebay.active.url);
-      ebayPrice.innerHTML = usd(results.ebay.active.price);
-      if (results.ebay.completed) {
+      if (results.ebay.active) {
+        ebayLink.setAttribute('href', results.ebay.active.url);
+        ebayPrice.innerHTML = usd(results.ebay.active.price);
+      }
+      if (results.ebay.completed && results.ebay.completed.length) {
         let sales = '';
         results.ebay.completed.forEach((sale) => {
           sales += `${usd(sale)} `;
@@ -80,7 +83,7 @@ const LegoPrice = (() => {
         ebaySales.innerHTML = sales;
       }
     }
-    if (results.brickest) bricksetLink.setAttribute('href', results.brickset.url);
+    if (results.brickset) bricksetLink.setAttribute('href', results.brickset.url);
     if (results.camel) camelLink.setAttribute('href', results.camel.url);
   };
 
