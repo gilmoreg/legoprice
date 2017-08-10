@@ -60,20 +60,28 @@ const LegoPrice = (() => {
   };
 
   const fillResults = (results) => {
-    title.innerHTML = results.amazon.title;
-    amazonLink.setAttribute('href', results.amazon.url);
-    amazonPrice.innerHTML = usd(results.amazon.price);
-    walmartLink.setAttribute('href', results.walmart.url);
-    walmartPrice.innerHTML = usd(results.walmart.price);
-    ebayLink.setAttribute('href', results.ebay.active.url);
-    ebayPrice.innerHTML = usd(results.ebay.active.price);
-    let sales = '';
-    results.ebay.completed.forEach((sale) => {
-      sales += `${usd(sale)} `;
-    });
-    ebaySales.innerHTML = sales;
-    bricksetLink.setAttribute('href', results.brickset.url);
-    camelLink.setAttribute('href', results.camel.url);
+    if (results.amazon) {
+      title.innerHTML = results.amazon.title;
+      amazonLink.setAttribute('href', results.amazon.url);
+      amazonPrice.innerHTML = usd(results.amazon.price);
+    }
+    if (results.walmart) {
+      walmartLink.setAttribute('href', results.walmart.url);
+      walmartPrice.innerHTML = usd(results.walmart.price);
+    }
+    if (results.ebay) {
+      ebayLink.setAttribute('href', results.ebay.active.url);
+      ebayPrice.innerHTML = usd(results.ebay.active.price);
+      if (results.ebay.completed) {
+        let sales = '';
+        results.ebay.completed.forEach((sale) => {
+          sales += `${usd(sale)} `;
+        });
+        ebaySales.innerHTML = sales;
+      }
+    }
+    if (results.brickest) bricksetLink.setAttribute('href', results.brickset.url);
+    if (results.camel) camelLink.setAttribute('href', results.camel.url);
   };
 
   const search = (event) => {
@@ -90,7 +98,8 @@ const LegoPrice = (() => {
       .then((res) => {
         button.classList.remove('is-loading');
         resultsSection.classList.remove('hidden');
-        fillResults(res);
+        if (res.amazon) fillResults(res);
+        else showError('Could not find a set by that number');
       })
       .catch((err) => {
         button.classList.remove('is-loading');

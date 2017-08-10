@@ -19,5 +19,5 @@ exports.fetchData = async (id) => {
       price: Number.parseFloat(item.OfferSummary.LowestNewPrice.Amount, 10) / 100,
       asin: item.ASIN,
     }))
-    .catch(err => console.error(err));
+    .catch(error => Error({ message: 'Could not get Amazon product info', error }));
 };

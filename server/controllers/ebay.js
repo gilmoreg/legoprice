@@ -25,6 +25,8 @@ exports.fetchData = async (id, minPrice) => {
     .then(res => res.json())
     .then(res => Number.parseInt(res.Product[0].ProductID[0].Value, 10))
     .catch(() => Error('Could not get Ebay Product ID'));
+  // If we dont get a product ID nothing else will work, so bail out
+  if (productId instanceof Error) return productId;
 
   // Use Finding API to get listings
   const findingParams = {
@@ -53,7 +55,7 @@ exports.fetchData = async (id, minPrice) => {
       price: Number.parseFloat(res.sellingStatus[0].currentPrice[0].__value__, 10) +
         Number.parseFloat(res.shippingInfo[0].shippingServiceCost[0].__value__, 10),
     }))
-    .catch(() => Error('Could not get current Ebay sale info'));
+    .catch(error => Error({ message: 'Could not get current Ebay sale info', error }));
 
   const completedParams = {
     'SERVICE-VERSION': '1.0.0',
@@ -79,7 +81,7 @@ exports.fetchData = async (id, minPrice) => {
     .then(res => res.findCompletedItemsResponse[0].searchResult[0].item)
     .then(res => res.map(item =>
       Number.parseFloat(item.sellingStatus[0].currentPrice[0].__value__, 10)))
-    .catch(() => Error('Could not get historical Ebay info'));
+    .catch(error => Error({ message: 'Could not get historical Ebay info', error }));
 
   return { active, completed };
 };
